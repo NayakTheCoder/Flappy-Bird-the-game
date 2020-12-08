@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .obstacle{
+            position: absolute;
+            right: 0;
+            width: 30px;
+        height: 260px;
+        background-color: red;
+        }
+        .obstacle2{
+            position: absolute;
+            right: 0;
+            width: 30px;
+        height: 280px;
+        bottom: 0;
+        background-color: red;
+        }
+        .bird{
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid black;
+            border-radius: 25px;
+            bottom: 350px;
+            background-color: yellow;
+        }
+        #containscore{
+            position: absolute;
+            top: 0;
+            left: 4;
+            font-size: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="contain">
+        <p id="containscore">score : <span id="score">0</span></p>
+        <div class="bird">
+          
+        </div>
+    </div>
+</body>
+<script>
+    let flappy = document.querySelector(".bird");
+    let contain = document.querySelector(".contain");
+    let goup;
+    let upvelocity = 350;
+    let paddlego;
+    let scoreshower = document.getElementById("score");
+    let score = 0;
+
+    function generatingobstacle(){
+        let heigt = Math.floor(Math.random()*381) + 40;
+        let heigt2 = Math.floor(Math.random()*281) + 40;
+        let position = 0;
+        const obstacle = document.createElement("div")    
+        obstacle.className = "obstacle";
+        contain.appendChild(obstacle);
+        const obstacle2 = document.createElement("div")    
+        obstacle2.className = "obstacle2";
+        contain.appendChild(obstacle2);
+        obstacle.style.height = heigt + "px";
+        obstacle2.style.height = heigt2 + "px";
+        paddlego = setInterval(function(){
+            position += 5;
+            obstacle.style.right = position + "px";
+            obstacle2.style.right = position + "px";
+
+            if(position>1360&&position<1370){
+             
+            score++ 
+                scoreshower.innerHTML = score;
+                 contain.removeChild(obstacle);
+                 contain.removeChild(obstacle2);
+                 /*obstacle.style.display = "none";
+                 obstacle2.style.display = "none";*/
+            }
+        } , 20
+        )
+        setTimeout(generatingobstacle , 1800);
+    }
+    generatingobstacle();
+    
+
+  document.addEventListener("keydown" , function(e){
+
+    if(e.keyCode === 38){
+        up();
+    }
+  });
+  function up(){
+    if(flappy.style.bottom < 0){alert("gameover")};
+    upgo = setInterval(function(){
+         upvelocity += 6;
+        flappy.style.bottom = upvelocity + "px";
+        document.onkeyup = function(){
+            clearInterval(upgo);
+            let godown = setInterval(function(){
+                upvelocity -= 3;
+                flappy.style.bottom = upvelocity + "px";
+                document.onkeydown = function(){
+                    clearInterval(godown);
+                }
+            } , 20)
+
+        }
+    } , 20)
+  }
+</script>
+<script>
+
+</script>
+</html>
